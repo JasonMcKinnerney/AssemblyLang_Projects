@@ -1,0 +1,95 @@
+## Jason McKinnerney
+## CS2318
+## Take Home Quiz 2 Mips Version
+## June 24 2021
+
+
+##Description:The median value of a set of integers, is the integer 𝑘such that half of the integers
+##in the set are smaller than or equal to  𝑘and half of the integers in the set are greater than or equal to 𝑘
+
+##Steps:
+##1)Considera MIPS assembly program that generates and initializes a dynamic integer array of 10 integers,
+## stores a pointer to the arrayin$a0 and the size of the array in $a1.
+##2)Next, the program finds the median of the values stored in the array and places this value in the register $v0.
+##3)Develop and submit a Pseudo C++ program in compliance with the instructions above.
+##4)Convert the Pseudo C++ program toMIPS Assembly (submit the program).
+## 5)Your deliverables should be the Pseudo-C++program as well as the assembly code of the MIPS program.6)You do not have to run the program.
+
+        .data
+        .align 2
+Prompt: .asciiz "\n Please Enter 10 numbers:" << endl;
+size:   .space 40
+        .globl  main
+        .text
+
+main:   
+        ori     $a1, $0, 10         ##  $a1 == Size of array
+        li      $a0, 40
+        li      $v0, 9
+        syscall
+        move    $a0, $v0            ## $a0 == Pointer to arr
+        
+        ori     $t0, $0, 0          ## $t0 == temp index
+        add     $t1, $0, $a0        ## $t1 == temp pointer to arr
+
+        li      $v0, 4
+        la      $a2, Prompt         ## Prompt for 10 numbers
+        syscall 
+while:   
+        beq     $t0, $a1, endwhile  ## while index != size
+        
+        li      $v0, 5
+        syscall 
+        add     $t2, $0, $v0        ## $t2 = input
+        sw      $t2, 0($t1)         ## Save input to array
+        addi    $t1, $0, 4          ## Increment pointer
+        addi	$t0, $0, 1          ## Increment index
+        b       while
+
+
+endwhile:
+
+        addi    $s0, $0, 0          ## index placeholder
+        addi    $t3, $a1, 36        ## Loop constraint 
+        addi    $t4, $a1, 40        ## Loop1 constraint
+
+for0: 
+        addi    $s1, $s0, 0         ## $s1 = first index location
+        addi    $s2, $s0, 4         ## $s2 = second index location
+        
+for1:
+
+        add     $t0, $s1, $a1       ## 
+        add     $t1, $s2, $a1       ##
+        lw		$t0, 0($t0)         ## $t0 = Load arr[min]
+        lw		$t1, 0($t1)         ## $t1 = Load arr[next]
+
+        bgt     $t1, $t0, keep      ## 
+        addi    $s1, $s2, 0         ## min = next
+
+keep:   
+        addi    $s2, $s2, 4         ## next++
+        blt     $s2, $t4, for1      ## back to loop if next < size
+        add     $t0, $s1, $a1       ## $t0 gets location of min
+        lw      $t1, 0($t0)         ## $t1 gets value of min    
+        add     $t2, $a1, $s0       ## $t2 gets location of starting index
+        lw      $t5, 0($t2)         ## $t5 gets value of starting index
+        sw      $t5, 0($t0)
+        sw      $t1, 0($t2)         ## Switch
+
+        addi    $s0, $s0, 4
+        beq     $s0, $t3, median    ## Move index and check constraint
+        b       for0                ## Branch appropriately
+
+median: 
+        addi    $t0, $a1, 20        ## Move halfway through array
+        lw      $t0, 0($t0)         ## Load and store in $v0
+        move    $v0, $t0    
+        
+
+        			
+
+        
+
+
+

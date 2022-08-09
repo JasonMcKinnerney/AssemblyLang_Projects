@@ -1,0 +1,40 @@
+Jason McKinnerney
+CS 2318 Assignment 3
+c++ portion
+
+main {
+
+
+
+array[100];
+
+cout << "Please enter the number of elements:" << endl;
+cin >> numElements;
+
+cout << "Please enter the elements in array: " << endl;
+
+int i = 0
+
+while (i != numElements) {
+	cin >> array[i];
+}
+
+
+for ( i = 0; i < num - 1; i++) {
+	min = i
+	for (int j = (i + 1); j < num; j++) {
+		if (array[j] < array[min])
+			min = j;
+		}
+	}
+	int temp = array[min];
+	array[min] = array[i];
+	array[i] = temp;
+}
+
+cout << "The element at the top of the array is: " << array[0] << endl;
+
+
+return 0;
+
+};
